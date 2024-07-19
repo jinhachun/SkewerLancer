@@ -1689,6 +1689,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Lance: {fileID: 2336322733822340845}
+  foodCount: 0
 --- !u!114 &471493914781271920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1703,6 +1704,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   moveSpd: 100
+  isPull: 0
 --- !u!114 &316144327383346463
 MonoBehaviour:
   m_ObjectHideFlags: 0

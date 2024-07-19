@@ -65,7 +65,7 @@ public class Maneuver : MonoBehaviour
     void Start()
     {
         line.positionCount = 2;
-        line.startWidth = 0.5f;
+        line.startWidth = 1f;
         line.endWidth = 0.05f; 
         line.SetPosition(0, transform.position);
         line.SetPosition(1, hook.position);

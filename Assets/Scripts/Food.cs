@@ -13,6 +13,7 @@ public class Food : MonoBehaviour
 
     SpriteRenderer spriteRenderer;
 
+    public FoodType type;
     public Color32 color;
     public bool isTarget;
 
@@ -29,6 +30,13 @@ public class Food : MonoBehaviour
         spriteRenderer.color = color;
     }
 
+    public void Set(FoodStruct foodStruct)
+    {
+        this.type = foodStruct._foodType;
+        this.color = foodStruct._color;
+        foodMove.moveDuration = foodStruct._moveDuration;
+        foodMove.movePattern = foodStruct._movePattern;
+    }
     public void HitAction()
     {
         if (isTarget)
