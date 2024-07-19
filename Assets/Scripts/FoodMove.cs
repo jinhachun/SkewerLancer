@@ -16,7 +16,9 @@ public class FoodMove : MonoBehaviour
     public float sleepDuration = 1f;
     public float minMoveRange = 2f;
     public float maxMoveRange = 5f;
+    public bool isMoving;
 
+    public Tweener tweener;
     private void Awake()
     {
         mainCamera = Camera.main;
@@ -26,9 +28,12 @@ public class FoodMove : MonoBehaviour
     {
         StartCoroutine(nameof(moveAction));
     }
+    private void Update()
+    {
+    }
     void Move()
     {
-        transform.DOMove(movePoint, moveDuration).SetEase(Ease.InOutCubic);
+        tweener = (transform.DOMove(movePoint, moveDuration).SetEase(Ease.InOutCubic));
     }
     void SetMovePoint()
     {
@@ -76,7 +81,7 @@ public class FoodMove : MonoBehaviour
     IEnumerator moveAction()
     {
         Debug.Log("move");
-        while (true)
+        while (isMoving)
         {
             Vector2 originalPos = transform.position;
             SetMovePoint();
@@ -85,6 +90,7 @@ public class FoodMove : MonoBehaviour
             
             yield return new WaitForSeconds(moveDuration + 1);
         }
+        yield break; 
     }
 }
 public enum MovePoint { RANDOM,FOLLOW};

@@ -6,11 +6,11 @@ using UnityEngine;
 public class Maneuver : MonoBehaviour
 {
     RopeHook ropeHook;
-    ObjectMovement objectMovement;
 
     LineRenderer line;
     public Color32 lineStartColor;
     public Color32 lineEndColor;
+    public Color32 lineAttachingColor;
 
     Transform hook;
 
@@ -59,7 +59,6 @@ public class Maneuver : MonoBehaviour
         line =obj.GetComponent<LineRenderer>();
         hook = obj.GetComponent<Transform>();
 
-        objectMovement = this.GetComponent<ObjectMovement>();
 
         rigidBody = this.GetComponent<Rigidbody2D>();
     }
@@ -70,8 +69,7 @@ public class Maneuver : MonoBehaviour
         line.endWidth = 0.05f; 
         line.SetPosition(0, transform.position);
         line.SetPosition(1, hook.position);
-        line.startColor = lineStartColor;
-        line.endColor = lineEndColor;
+        setLineColor(lineEndColor);
         line.useWorldSpace = true;
         
 
@@ -87,11 +85,7 @@ public class Maneuver : MonoBehaviour
         line.SetPosition(0, transform.position);
         line.SetPosition(1, hook.position);
 
-        if (Input.GetKey(KeyCode.Mouse0) && isRopeAttach)   // 로프 능력
-        {
-            RopeAbility();
-        }
-        else if (Input.GetKeyDown(KeyCode.Mouse0))          // 로프 발사
+        if (Input.GetKeyDown(KeyCode.Mouse0))          // 로프 발사
         {
             if (!isRopeAction)
             {
@@ -119,11 +113,12 @@ public class Maneuver : MonoBehaviour
         }
         if (isRopeAttach)
         {
+            setLineColor(lineAttachingColor);
             isRopeMax = !isRopeMax ? ropeHook.collideTarget==CollideTarget.NONE:true;
-            if(ropeHook.targetObject!=null)
-                PullTarget();
-
-            float distance = Vector2.Distance(transform.position , hook.position);
+            if (ropeHook.targetObject != null)
+            {
+                RopeAbility();
+            }
                 
         }
         if (isRopeMax)
@@ -132,7 +127,12 @@ public class Maneuver : MonoBehaviour
         }
 
     }
+    void setLineColor(Color32 color)
+    {
+        line.startColor = lineStartColor;
+        line.endColor = color;
 
+    }
     // 로프 발사
     void RopeShot()
     {
@@ -162,12 +162,8 @@ public class Maneuver : MonoBehaviour
             case (CollideTarget.PULL):
                 {
                     //Debug.Log("로프 능력");
-                    objectMovement.isPulled = true;
-                    if (objectMovement.isHeavier)
-                    {
-                        Vector2 comebackVec = transform.position - hook.position;
-                        hook.Translate(comebackVec.normalized * Time.deltaTime * ropeSpeed);
-                    }
+                    Vector2 comebackVec = transform.position - hook.position;
+                    hook.Translate(comebackVec.normalized * Time.deltaTime * ropeSpeed);
                     return;
                 }
             case (CollideTarget.NONE):
@@ -178,17 +174,11 @@ public class Maneuver : MonoBehaviour
         }
         RopeComeBack();
     }
-    void PullTarget()
-    {
-        GameObject targetObject = ropeHook.targetObject;
-        Vector2 hookPosition = ropeHook.hookPosition;
-
-        objectMovement.Set(targetObject.GetComponent<Rigidbody2D>(), hookPosition);
-    }
 
     // 로프 돌아오기
     public void RopeComeBack()
     {
+        setLineColor(lineEndColor);
         //Debug.Log("로프 컴백");
         isRopeAction = false;
         isRopeAttach = false;

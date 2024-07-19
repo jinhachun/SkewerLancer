@@ -54,6 +54,12 @@ public class RopeHook : MonoBehaviour
     }
 
 
+    void PullTarget()
+    {
+        ObjectMovement objectMovement = maneuver.GetComponent<ObjectMovement>();
+        objectMovement.Set(targetObject.transform, hookPosition);
+        objectMovement.pullObject();
+    }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
@@ -85,8 +91,8 @@ public class RopeHook : MonoBehaviour
             hookPosition.x = this.transform.position.x;
             hookPosition.y = this.transform.position.y;
 
-            collideTarget = CollideTarget.PULL; 
-            this.gameObject.SetActive(false);
+            collideTarget = CollideTarget.PULL;
+            PullTarget();
         }
     }
 }
