@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcbdf4be490b98c42beb06f7f7ebf2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movePattern: 0
+  movePattern: 1
   movePoint: {x: 0, y: 0}
   moveDuration: 0.5
   sleepDuration: 0.5

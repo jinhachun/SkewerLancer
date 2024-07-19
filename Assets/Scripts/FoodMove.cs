@@ -39,6 +39,11 @@ public class FoodMove : MonoBehaviour
     {
         switch (movePattern)
         {
+            case (MovePoint.NONE):
+                {
+                    movePoint = this.transform.position;
+                    return;
+                }
             case (MovePoint.FOLLOW):
                 {
                     var minX = Mathf.Min(transform.position.x, player.transform.position.x + 1);
@@ -93,4 +98,4 @@ public class FoodMove : MonoBehaviour
         yield break; 
     }
 }
-public enum MovePoint { RANDOM,FOLLOW};
+public enum MovePoint { NONE,RANDOM,FOLLOW};

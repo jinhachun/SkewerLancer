@@ -31,7 +31,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9112330796630352147}
-  - {fileID: 6881003389867096565}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2892461670174610812
@@ -46,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec513b86ed40f474195b3b08b5bd15d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _foodPrefab: {fileID: 0}
-  _lancePike: {fileID: 0}
+  _foodPrefab: {fileID: 1775161165357685287, guid: 5c1b6d078ee68f34e9261650f81f539e, type: 3}
+  _lancePike: {fileID: 1779316664763946837}
 --- !u!1 &3040419898572249183
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,7 +109,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6881003389867096565}
   m_Father: {fileID: 9112330796630352147}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1779316664763946837
@@ -190,13 +190,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5554108711140233925}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.5, w: 0.8660254}
-  m_LocalPosition: {x: -0.546, y: -0.507, z: 0}
-  m_LocalScale: {x: 1.3447, y: 1.3447, z: 1.3447}
+  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
+  m_LocalPosition: {x: -0.721, y: -0.73, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2016213179801481440}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 60}
+  m_Father: {fileID: 9110664133866306469}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
 --- !u!331 &6049057600580472279
 SpriteMask:
   m_ObjectHideFlags: 0

@@ -49,7 +49,12 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        StartRoutine();
+    }
+    void StartRoutine()
+    {
         StartCoroutine(nameof(CreateFoodRoutine));
+        StartCoroutine(nameof(ScoreEarnRoutine));
     }
     void CreateFood()
     {
@@ -81,6 +86,14 @@ public class GameManager : MonoBehaviour
 
         }
         yield return new WaitForSeconds(createFoodRate);
+    }
+    IEnumerator ScoreEarnRoutine()
+    {
+        while (true)
+        {
+            score++;
+            yield return new WaitForSeconds(1f);
+        }
     }
 }
 public enum FoodType { MEAT, GREENONION, CARROT, CORN, MASHMELLOW, FISH };
