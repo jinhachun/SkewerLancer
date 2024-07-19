@@ -87,20 +87,17 @@ public class Maneuver : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse0))          // 로프 발사
         {
-            if (!isRopeAction)
-            {
-                RopeShot();
-            }
-            else if (!isRopeAttach)
-            {
-                RopeShot();
-            }
+            RopeShot();
         } 
-        else if(Input.GetKeyUp(KeyCode.Mouse0) && isRopeAttach) // 로프 컴백
+        //else if(Input.GetKeyUp(KeyCode.Mouse0) && isRopeAttach) // 로프 컴백
+        //{
+        //    isRopeMax = true;
+        //}
+
+        else if (Input.GetKeyUp(KeyCode.Mouse0)) // 로프 컴백
         {
             isRopeMax = true;
         }
-
         if (isRopeAction && !isRopeMax && !isRopeAttach)
         {
             hook.Translate(mousedir.normalized * Time.deltaTime * ropeSpeed);

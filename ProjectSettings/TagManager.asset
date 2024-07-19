@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Hook
+  - Bind
   layers:
   - Default
   - TransparentFX
@@ -42,6 +43,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BackGround
+    uniqueID: 68455541
+    locked: 0
+  - name: Food
+    uniqueID: 3276640229
+    locked: 0
   - name: Player
     uniqueID: 2973908231
+    locked: 0
+  - name: UI
+    uniqueID: 889884385
     locked: 0

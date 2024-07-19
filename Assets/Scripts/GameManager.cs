@@ -8,15 +8,44 @@ using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
+    private static GameManager instance = null;
+
+    void Awake()
+    {
+        if (null == instance)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    public static GameManager Instance
+    {
+        get
+        {
+            if (null == instance)
+            {
+                return null;
+            }
+            return instance;
+        }
+    }
     public GameObject _foodPrefab;
 
     public int maxSkewerLength;
     public List<FoodStruct> foodStructs;
     public List<FoodType> recipe;
+    public List<FoodType> playerRecipe;
 
-    int skewerLength = 0;
+    int skewerLength = 2;
     public float createFoodRate = 2;
     public bool creatingFood = true;
+
+    public int score;
 
     private void Start()
     {
@@ -41,9 +70,14 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator CreateFoodRoutine()
     {
+        if (recipe.Count == 0)
+        {
+            NewReciept();
+        }
         while (creatingFood)
         {
             CreateFood();
+            yield return new WaitForSeconds(createFoodRate);
 
         }
         yield return new WaitForSeconds(createFoodRate);

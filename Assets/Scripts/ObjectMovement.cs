@@ -34,15 +34,28 @@ public class ObjectMovement : MonoBehaviour
         isPull = true;
         //Vector3 dir = (hookPos - moveObj.transform.position).normalized;
         //moveObj.MovePosition(moveObj.transform.position + dir * moveSpd * Time.fixedDeltaTime);
-        tweener = this.transform.DOMove(target.transform.position, 0.2f).SetEase(Ease.InCubic).OnComplete(
-            () =>
-            {
-                target.GetComponent<Food>().HitAction();
-                StopPull();
-                ropeHook.gameObject.SetActive(false);
-            }
-         );
-
+        if (tweener!=null && tweener.IsActive() ) tweener.Kill(); 
+        if (target.GetComponent<Rigidbody2D>() != null)
+        {
+            tweener = this.transform.DOMove(ropeHook.transform.position, 0.2f).SetEase(Ease.InCubic).OnComplete(
+                () =>
+                {
+                    StopPull();
+                    ropeHook.gameObject.SetActive(false);
+                }
+             );
+        }
+        else
+        {
+            tweener = this.transform.DOMove(target.transform.position, 0.2f).SetEase(Ease.InCubic).OnComplete(
+                () =>
+                {
+                    target.GetComponent<Food>().HitAction();
+                    StopPull();
+                    ropeHook.gameObject.SetActive(false);
+                }
+             );
+        }
     }
 
     // 당기기 중지할때 필수적으로 호출
