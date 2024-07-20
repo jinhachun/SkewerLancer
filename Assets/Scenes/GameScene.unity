@@ -2614,8 +2614,8 @@ MonoBehaviour:
       rgba: 4281181439
     _movePattern: 1
     _moveDuration: 1
-    _sleepDuration: 0
-    _moveRange: 2
+    _sleepDuration: 0.5
+    _moveRange: 1
   - _foodType: 5
     _color:
       serializedVersion: 2
