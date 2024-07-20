@@ -39,8 +39,11 @@ public class GameManager : MonoBehaviour
     public GameObject _foodPrefab;
 
     public List<FoodStruct> foodStructs;
+    public Queue<FoodStruct> foodStructQueue;
+
     public Dictionary<FoodStruct, int> foodStructCnt;
-    
+    Dictionary<FoodStruct, int> foodStructSpawnPercentage;
+
     public List<FoodType> recipe;
     public List<FoodType> playerRecipe;
 
@@ -54,6 +57,7 @@ public class GameManager : MonoBehaviour
     public bool creatingFood = true;
 
     public int score;
+    public int combo;
     private int levelUpScore = 1000;
     public bool isRecipeChanged = false;
 
@@ -62,6 +66,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         foodStructCnt = new Dictionary<FoodStruct, int>();
+        foodStructSpawnPercentage = new Dictionary<FoodStruct, int>();
         StartRoutine();
     }
     void StartRoutine()
@@ -71,21 +76,50 @@ public class GameManager : MonoBehaviour
     }
     void CreateFood()
     {
-        FoodStruct foodStruct = foodStructs[UnityEngine.Random.Range(0, Math.Min(foodStructs.Count, skewerLength))];
-        foreach (KeyValuePair<FoodStruct,int> keyValuePair in foodStructCnt)
-        {
-            if(keyValuePair.Value == 0)
-            {
-                foodStruct = keyValuePair.Key;
-            }
-        }
-        if(!foodStructCnt.ContainsKey(foodStruct)) foodStructCnt.Add(foodStruct, 0);
-        foodStructCnt[foodStruct] += 1;
-       
+        //foreach (KeyValuePair<FoodStruct,int> keyValuePair in foodStructCnt)
+        //{
+        //    if(keyValuePair.Value == 0)
+        //    {
+        //        foodStruct = keyValuePair.Key;
+        //    }
+        //}
+        UpdateFoodStructCnt();
+        FoodStruct foodStruct = RandomSpawnTarget();
+        if (!foodStructCnt.ContainsKey(foodStruct)) foodStructCnt.Add(foodStruct, 0);
         var randomX = Random.Range(-20,20);
         var randomY = Random.Range(-10, 10);
         var tmpFood = Instantiate(_foodPrefab,new Vector3(randomX,randomY),Quaternion.identity);
         tmpFood.GetComponent<Food>().Set(foodStruct);
+    }
+    void UpdateFoodStructCnt()
+    {
+        foodStructSpawnPercentage.Clear();
+        int max = 0;
+        foreach (var keyValue in foodStructCnt)
+        {
+            Debug.Log(keyValue.Key+"------"+keyValue.Value);
+            max = Math.Max(max, keyValue.Value);
+        }
+        foreach (var keyValue in foodStructCnt)
+        {
+            foodStructSpawnPercentage.Add(keyValue.Key, max - keyValue.Value);
+        }
+
+    }
+    FoodStruct RandomSpawnTarget()
+    {
+        List<FoodStruct> tmpFoodStructs = new List<FoodStruct>();
+        foreach(var keyValue in foodStructSpawnPercentage)
+        {
+            Debug.Log(keyValue.Key+" "+keyValue.Value);
+            for(int i=0;i<keyValue.Value; i++)
+            {
+                tmpFoodStructs.Add(keyValue.Key);
+            }
+        }
+        if (tmpFoodStructs.Count > 0)
+            return tmpFoodStructs[Random.Range(0, tmpFoodStructs.Count)];
+        else return foodStructs[UnityEngine.Random.Range(0, Math.Min(foodStructs.Count, skewerLength))]; ;
     }
     void NewRecipe()
     {
@@ -131,7 +165,7 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator CreateFoodRoutine()
     {
-        while (inGame)
+        while (true)
         {
             Debug.Log("===CreateFoodRoutine===");
             if (recipe.Count == 0)
@@ -155,13 +189,16 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator ScoreEarnRoutine()
     {
-        while (GameManager.Instance.inGame)
+        while (true)
         {
             Debug.Log("점수추가");
             score+=(50+skewerLength);
             if(score != 0 && score>levelUpScore)
             {
                 levelUpScore *= 2;
+                var i = Math.Min(foodStructs.Count-1, maxSkewerLength - 1);
+                if (!foodStructCnt.ContainsKey(foodStructs[i]))
+                    foodStructCnt.Add(foodStructs[i], 0);
                 maxSkewerLength++;
                 createFoodRate = Math.Max(createFoodRate-0.2f,0.5f);
             }

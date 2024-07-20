@@ -73,7 +73,7 @@ public class FoodMove : MonoBehaviour
                             continue;
 
                         Vector3 viewPos = mainCamera.WorldToViewportPoint(movePoint);
-                        if (viewPos.x < 0 || viewPos.x > 1 || viewPos.y < 0 || viewPos.y > 1)
+                        if (viewPos.x < 0.15 || viewPos.x > 0.85 || viewPos.y < 0.15 || viewPos.y > 0.85)
                         {
                             continue;
                         }

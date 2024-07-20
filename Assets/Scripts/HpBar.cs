@@ -6,8 +6,10 @@ using UnityEngine.UI;
 
 public class HpBar : MonoBehaviour
 {
-    Player player;
+    protected Player player;
     Slider slider;
+    virtual public int value => player.hp;
+    virtual public int maxValue => player.maxHp;
 
     private void Awake()
     {
@@ -23,8 +25,8 @@ public class HpBar : MonoBehaviour
         while (GameManager.Instance.inGame)
         {
             Debug.Log("체력바 업데이트");
-            slider.value = player.hp;
-            slider.maxValue = player.maxHp;
+            slider.value = value;
+            slider.maxValue = maxValue;
 
             yield return new WaitForSeconds(0.05f);
         }

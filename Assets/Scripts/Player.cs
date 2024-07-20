@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     PlayerLance playerLance;
     public int hp = 100;
     public int maxHp = 100;
+    public int comboTime = 0;
+    public int maxComboTime = 10;
 
     private void Awake()
     {
