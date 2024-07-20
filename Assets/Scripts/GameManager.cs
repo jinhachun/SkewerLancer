@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
     public List<FoodType> recipe;
     public List<FoodType> playerRecipe;
 
-    public int maxSkewerLength = 2;
+    public int maxSkewerLength => Math.Min(Math.Max(2,(combo-2)),6);
     public int skewerLength = 2;
 
     public int foodCnt = 0;
@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
 
     public int score;
     public int combo;
-    private int levelUpScore = 1000;
+    private int levelUpScore = 1200;
     public bool isRecipeChanged = false;
 
      
@@ -161,7 +161,7 @@ public class GameManager : MonoBehaviour
     }
     public void EarnScore()
     {
-        score += skewerLength*100;
+        score += skewerLength*combo*50;
         combo++;
     }
     IEnumerator CreateFoodRoutine()
@@ -193,14 +193,13 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             Debug.Log("점수추가");
-            score+=(50+skewerLength);
+            score+=(10*combo);
             if(score != 0 && score>levelUpScore)
             {
                 levelUpScore *= 2;
                 var i = Math.Min(foodStructs.Count-1, maxSkewerLength - 1);
                 if (!foodStructCnt.ContainsKey(foodStructs[i]))
                     foodStructCnt.Add(foodStructs[i], 0);
-                maxSkewerLength++;
                 createFoodRate = Math.Max(createFoodRate-0.2f,0.5f);
             }
             yield return new WaitForSeconds(1f);
@@ -215,4 +214,6 @@ public struct FoodStruct
     public Color32 _color;
     public MovePoint _movePattern;
     public float _moveDuration;
+    public float _sleepDuration;
+    public float _moveRange;
 }

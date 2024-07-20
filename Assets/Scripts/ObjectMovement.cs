@@ -35,7 +35,7 @@ public class ObjectMovement : MonoBehaviour
         //Vector3 dir = (hookPos - moveObj.transform.position).normalized;
         //moveObj.MovePosition(moveObj.transform.position + dir * moveSpd * Time.fixedDeltaTime);
         if (tweener!=null && tweener.IsActive() ) tweener.Kill(); 
-        if (target.GetComponent<Rigidbody2D>() != null)
+        if (target.GetComponent<Rigidbody2D>().bodyType == RigidbodyType2D.Static)
         {
             tweener = this.transform.DOMove(ropeHook.transform.position, 0.2f).SetEase(Ease.InCubic).OnComplete(
                 () =>

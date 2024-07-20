@@ -32,20 +32,6 @@ public class FoodMove : MonoBehaviour
     }
     private void Update()
     {
-        Debug.DrawRay(transform.position, ((Vector3)movePoint - transform.position)*.3f,Color.red);
-        if(hit = Physics2D.Raycast(transform.position,(Vector3) movePoint - transform.position,.3f))
-        {
-            Debug.Log("面倒1 :");
-            if (!hit) return;
-            if (hit.collider.gameObject == this.gameObject) return;
-            Debug.Log("面倒2");
-            if (!hit.collider.gameObject.CompareTag("Bind")) return;
-            Debug.Log("面倒3");
-            if (tweener != null && tweener.IsActive()) tweener.Kill();
-            Debug.Log("面倒4 : " + hit.collider.gameObject.name);
-            SetMovePoint();
-            Move();
-        }
     }
     void Move()
     {

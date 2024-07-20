@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
             Debug.Log("체력감소");
             hp -= 1;
             if (hp <= 0) hp = 0;
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSeconds(0.35f);
         }
     }
     IEnumerator comboPlus()

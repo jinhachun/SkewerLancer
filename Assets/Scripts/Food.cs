@@ -36,6 +36,8 @@ public class Food : MonoBehaviour
         this.color = foodStruct._color;
         foodMove.moveDuration = foodStruct._moveDuration;
         foodMove.movePattern = foodStruct._movePattern;
+        foodMove.sleepDuration = foodStruct._sleepDuration;
+        foodMove.maxMoveRange = foodStruct._moveRange;
     }
     public void HitAction()
     {
@@ -54,6 +56,10 @@ public class Food : MonoBehaviour
         foodMove.tweener.Kill();
         GetComponent<Collider2D>().enabled = false;
         this.transform.position = player.GetComponent<PlayerLance>().foodVector();
+        Rigidbody2D rigidbody2D = GetComponent<Rigidbody2D>();
+        rigidbody2D.velocity = Vector3.zero;
+        rigidbody2D.isKinematic = true;
+        rigidbody2D.simulated = false;
         this.transform.SetParent(lance.transform, false);
         this.spriteRenderer.sortingLayerName = "UI";
         this.spriteRenderer.sortingOrder = 101;

@@ -2598,21 +2598,34 @@ MonoBehaviour:
       rgba: 4287269631
     _movePattern: 1
     _moveDuration: 2
+    _sleepDuration: 1
+    _moveRange: 5
   - _foodType: 1
     _color:
       serializedVersion: 2
       rgba: 4288937881
     _movePattern: 2
     _moveDuration: 5
+    _sleepDuration: 1
+    _moveRange: 5
   - _foodType: 2
     _color:
       serializedVersion: 2
       rgba: 4281181439
     _movePattern: 1
     _moveDuration: 1
+    _sleepDuration: 0
+    _moveRange: 2
+  - _foodType: 5
+    _color:
+      serializedVersion: 2
+      rgba: 4294941997
+    _movePattern: 2
+    _moveDuration: 1
+    _sleepDuration: 1
+    _moveRange: 1
   recipe: 
   playerRecipe: 
-  maxSkewerLength: 2
   skewerLength: 2
   foodCnt: 0
   maxFoodCnt: 20

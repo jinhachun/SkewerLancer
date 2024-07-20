@@ -39,6 +39,10 @@ public class UISkewer : MonoBehaviour
         {
             var tmpFood = Instantiate(_foodPrefab, new Vector3(-1.1f*i-.1f, 0, 0), Quaternion.identity);
             tmpFood.transform.SetParent(this.gameObject.transform, false);
+            Rigidbody2D rigidbody2D = tmpFood.GetComponent<Rigidbody2D>();
+            rigidbody2D.velocity = Vector3.zero;
+            rigidbody2D.isKinematic = true;
+            rigidbody2D.simulated = false;
             var tmpFoodFood = tmpFood.GetComponent<Food>();
             FoodStruct tmpFoodStruct = GameManager.Instance.foodStructs.Find(
                 x => x._foodType == recipe[i]
