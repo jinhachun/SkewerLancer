@@ -59,6 +59,7 @@ public class Food : MonoBehaviour
         this.spriteRenderer.sortingOrder = 3;
         this.transform.localScale *= 0.6f;
         
+        
     }
     void WrongFood()
     {

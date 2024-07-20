@@ -2117,10 +2117,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LanceSprite
       objectReference: {fileID: 0}
-    - target: {fileID: 9110664133866306469, guid: b74daefe62e8c2e499ecd6cf58d67d94, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2136,8 +2132,8 @@ SceneRoots:
   - {fileID: 276930523}
   - {fileID: 1404260031}
   - {fileID: 752583142}
+  - {fileID: 2559592192988864157}
   - {fileID: 1868906519}
   - {fileID: 669300260}
   - {fileID: 314053415}
-  - {fileID: 2559592192988864157}
   - {fileID: 1155717917}

@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
     public bool creatingFood = true;
 
     public int score;
+    public bool isRecipeChanged = false;
 
     private void Start()
     {
@@ -64,7 +65,7 @@ public class GameManager : MonoBehaviour
         var tmpFood = Instantiate(_foodPrefab,new Vector3(randomX,randomY),Quaternion.identity);
         tmpFood.GetComponent<Food>().Set(foodStruct);
     }
-    void NewReciept()
+    void NewRecipe()
     {
         skewerLength = UnityEngine.Random.Range(2, maxSkewerLength+1);
         for (int i = 0; i < skewerLength; i++)
@@ -72,12 +73,18 @@ public class GameManager : MonoBehaviour
             FoodStruct foodStruct = foodStructs[UnityEngine.Random.Range(0, Math.Min(foodStructs.Count,skewerLength))];
             recipe.Add(foodStruct._foodType);
         }
+        isRecipeChanged = true;
     }
+    public void AddPlayerRecipe(FoodType foodType)
+    {
+        playerRecipe.Add(foodType);
+    } 
     IEnumerator CreateFoodRoutine()
     {
         if (recipe.Count == 0)
         {
-            NewReciept();
+            NewRecipe();
+
         }
         while (creatingFood)
         {

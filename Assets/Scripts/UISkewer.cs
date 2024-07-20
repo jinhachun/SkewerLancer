@@ -12,7 +12,7 @@ public class UISkewer : MonoBehaviour
 
     private void Start()
     {
-        
+        StartCoroutine(nameof(SetRoutine));
     }
 
     [ContextMenu("SET")]
@@ -39,6 +39,13 @@ public class UISkewer : MonoBehaviour
 
     IEnumerator SetRoutine()
     {
-        yield return null;
+        while (true){
+            if (GameManager.Instance.isRecipeChanged)
+            {
+                GameManager.Instance.isRecipeChanged = false;
+                Set();
+                yield return new WaitForSeconds(1f);
+            }
+        }
     }
 }
