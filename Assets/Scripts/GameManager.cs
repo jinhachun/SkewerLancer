@@ -78,21 +78,45 @@ public class GameManager : MonoBehaviour
     public void AddPlayerRecipe(FoodType foodType)
     {
         playerRecipe.Add(foodType);
-    } 
+    }
+    public bool isRecipeSame()
+    {
+        int i = 0;
+        foreach (var food in playerRecipe)
+        {
+            if (food == recipe[i])
+                i++;
+            else
+                return false;
+        }
+        if (i == recipe.Count)
+        {
+            return true;
+        }
+        return false;
+    }
+    public void ResetRecipe(bool isRecipeSame)
+    {
+        if(isRecipeSame)
+            recipe.Clear();
+        playerRecipe.Clear();
+    }
     IEnumerator CreateFoodRoutine()
     {
-        if (recipe.Count == 0)
+        while (true)
         {
-            NewRecipe();
+            if (recipe.Count == 0)
+            {
+                NewRecipe();
 
-        }
-        while (creatingFood)
-        {
-            CreateFood();
+            }
+            if (creatingFood)
+            {
+                CreateFood();
+
+            }
             yield return new WaitForSeconds(createFoodRate);
-
         }
-        yield return new WaitForSeconds(createFoodRate);
     }
     IEnumerator ScoreEarnRoutine()
     {

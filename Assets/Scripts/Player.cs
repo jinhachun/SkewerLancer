@@ -12,7 +12,18 @@ public class Player : MonoBehaviour
     {
         StartCoroutine(nameof(hpLoss));
     }
-
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            bool isRecipeSame = GameManager.Instance.isRecipeSame();
+            if (isRecipeSame)
+            {
+                hp += 20;
+            }
+            GameManager.Instance.ResetRecipe(isRecipeSame);
+        }
+    }
     IEnumerator hpLoss()
     {
         while (true)

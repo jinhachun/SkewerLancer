@@ -42,6 +42,7 @@ public class FoodMove : MonoBehaviour
             case (MovePoint.NONE):
                 {
                     movePoint = this.transform.position;
+                    isMoving = false;
                     return;
                 }
             case (MovePoint.FOLLOW):
@@ -86,11 +87,12 @@ public class FoodMove : MonoBehaviour
     IEnumerator moveAction()
     {
         Debug.Log("move");
-        while (isMoving)
+        while (true)
         {
-            Vector2 originalPos = transform.position;
             SetMovePoint();
-            Move();
+            if (isMoving)
+                Move();
+            else break;
 
             
             yield return new WaitForSeconds(moveDuration + 1);
