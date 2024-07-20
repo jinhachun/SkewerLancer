@@ -553,9 +553,9 @@ GameObject:
   - component: {fileID: 293262977}
   - component: {fileID: 293262980}
   - component: {fileID: 293262979}
-  - component: {fileID: 293262978}
+  - component: {fileID: 293262981}
   m_Layer: 5
-  m_Name: scoreText (1)
+  m_Name: comboText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -580,18 +580,6 @@ RectTransform:
   m_AnchoredPosition: {x: -1595.3, y: 995.7}
   m_SizeDelta: {x: 321.521, y: 50}
   m_Pivot: {x: 1, y: 0}
---- !u!114 &293262978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 293262976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d293eec25a40ac64d93a56c12bbd97cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &293262979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -689,6 +677,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 293262976}
   m_CullTransparentMesh: 1
+--- !u!114 &293262981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 293262976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff7a7f3b6ccdf2f4b927bb0d5e4ff3a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &314053415
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1324,6 +1324,14 @@ PrefabInstance:
       propertyPath: uiSkewer
       value: 
       objectReference: {fileID: 270758931}
+    - target: {fileID: 1666595286412458463, guid: 37e10e7ee7347cb4c980a9e19706db54, type: 3}
+      propertyPath: comboTime
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666595286412458463, guid: 37e10e7ee7347cb4c980a9e19706db54, type: 3}
+      propertyPath: maxComboTime
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 7205937751522274346, guid: 37e10e7ee7347cb4c980a9e19706db54, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2452,7 +2460,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -744.6, y: 1000}
+  m_AnchoredPosition: {x: -747.4, y: 1000}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1905408971
@@ -2509,7 +2517,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 3
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: -12
@@ -2611,6 +2619,7 @@ MonoBehaviour:
   createFoodRate: 1.8
   creatingFood: 1
   score: 0
+  combo: 0
   isRecipeChanged: 0
 --- !u!4 &1958453679
 Transform:

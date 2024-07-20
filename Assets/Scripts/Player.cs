@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     PlayerLance playerLance;
     public int hp = 100;
     public int maxHp = 100;
-    public int comboTime = 0;
+    public int comboTime = 10;
     public int maxComboTime = 10;
 
     private void Awake()
@@ -26,9 +26,18 @@ public class Player : MonoBehaviour
             bool isRecipeSame = GameManager.Instance.isRecipeSame();
             if (isRecipeSame)
             {
+                comboTime = maxComboTime;
                 GameManager.Instance.EarnScore();
+                if(GameManager.Instance.combo == 1)
+                {
+                    StartCoroutine(nameof(comboPlus));
+                }
                 uiSkewer.ResetSprite();
                 hp = System.Math.Min(hp+20+GameManager.Instance.skewerLength,maxHp);
+            }
+            else
+            {
+
             }
             
             playerLance.ResetLance();
@@ -44,6 +53,19 @@ public class Player : MonoBehaviour
             hp -= 1;
             if (hp <= 0) hp = 0;
             yield return new WaitForSeconds(0.4f);
+        }
+    }
+    IEnumerator comboPlus()
+    {
+        while (GameManager.Instance.inGame)
+        {
+            if (comboTime <= 0)
+            {
+                GameManager.Instance.combo = 0;
+                yield break;
+            }
+            comboTime--;
+            yield return new WaitForSeconds(1f);
         }
     }
 

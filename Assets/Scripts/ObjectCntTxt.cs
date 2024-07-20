@@ -16,6 +16,9 @@ public class ObjectCntTxt : MonoBehaviour
     {
         while (GameManager.Instance.inGame)
         {
+            if (GameManager.Instance.foodCnt == GameManager.Instance.maxFoodCnt)
+                txt.color = Color.red;
+            else txt.color = Color.white;
             txt.text = $"Food In Field : {GameManager.Instance.foodCnt}/{GameManager.Instance.maxFoodCnt}";
             yield return new WaitForSeconds(0.03f);
         }

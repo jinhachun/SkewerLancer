@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Hook
   - Bind
+  - Wall
   layers:
   - Default
   - TransparentFX

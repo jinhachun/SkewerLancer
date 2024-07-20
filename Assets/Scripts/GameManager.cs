@@ -162,6 +162,7 @@ public class GameManager : MonoBehaviour
     public void EarnScore()
     {
         score += skewerLength*100;
+        combo++;
     }
     IEnumerator CreateFoodRoutine()
     {

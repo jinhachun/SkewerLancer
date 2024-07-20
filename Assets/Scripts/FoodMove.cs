@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Unity.VisualScripting;
 
 
 public class FoodMove : MonoBehaviour
@@ -9,6 +10,7 @@ public class FoodMove : MonoBehaviour
     Player player;
 
     Camera mainCamera;
+    RaycastHit2D hit;
 
     public MovePoint movePattern;
     public Vector2 movePoint;
@@ -30,6 +32,20 @@ public class FoodMove : MonoBehaviour
     }
     private void Update()
     {
+        Debug.DrawRay(transform.position, ((Vector3)movePoint - transform.position)*.3f,Color.red);
+        if(hit = Physics2D.Raycast(transform.position,(Vector3) movePoint - transform.position,.3f))
+        {
+            Debug.Log("面倒1 :");
+            if (!hit) return;
+            if (hit.collider.gameObject == this.gameObject) return;
+            Debug.Log("面倒2");
+            if (!hit.collider.gameObject.CompareTag("Bind")) return;
+            Debug.Log("面倒3");
+            if (tweener != null && tweener.IsActive()) tweener.Kill();
+            Debug.Log("面倒4 : " + hit.collider.gameObject.name);
+            SetMovePoint();
+            Move();
+        }
     }
     void Move()
     {
@@ -79,7 +95,9 @@ public class FoodMove : MonoBehaviour
                         }
                         else break;
                     }
-                    if (roopCnt > 1000) { Destroy(gameObject); }
+                    if (roopCnt > 100) { 
+                        Destroy(gameObject); 
+                    }
                     return;
                 }
         }

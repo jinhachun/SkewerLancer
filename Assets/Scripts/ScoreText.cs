@@ -6,7 +6,7 @@ using UnityEngine;
 public class ScoreText : MonoBehaviour
 {
     GameManager gameManager => GameManager.Instance;
-    int score => gameManager.score;
+    virtual public int score => gameManager.score;
 
     TMPro.TMP_Text textMeshPro;
 
