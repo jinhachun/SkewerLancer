@@ -611,9 +611,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1321059065
-  m_SortingLayer: 3
-  m_SortingOrder: 2
+  m_SortingLayerID: 889884385
+  m_SortingLayer: 4
+  m_SortingOrder: 100
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.5283019, g: 0.36976865, b: 0.18191527, a: 1}
   m_FlipX: 0
@@ -1761,6 +1761,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98c0dce081e7025428bf4532f004da47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiSkewer: {fileID: 0}
   hp: 100
   maxHp: 100
 --- !u!114 &578862804192772275
@@ -1775,7 +1776,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6494c7ed1fbf63c48b911b57a27bfe8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Lance: {fileID: 2336322733822340845}
+  Lance: {fileID: 9185162618406644257}
+  LanceSprite: {fileID: 2336322733822340845}
   foodCount: 0
 --- !u!114 &471493914781271920
 MonoBehaviour:

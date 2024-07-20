@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] UISkewer uiSkewer;
+    PlayerLance playerLance;
     public int hp = 100;
     public int maxHp = 100;
 
-    
+    private void Awake()
+    {
+        playerLance = GetComponent<PlayerLance>();
+    }
     void Start()
     {
         StartCoroutine(nameof(hpLoss));
@@ -19,8 +24,13 @@ public class Player : MonoBehaviour
             bool isRecipeSame = GameManager.Instance.isRecipeSame();
             if (isRecipeSame)
             {
-                hp += 20;
+                GameManager.Instance.EarnScore();
+                uiSkewer.ResetSprite();
+                hp = System.Math.Min(hp+20+GameManager.Instance.skewerLength,maxHp);
             }
+            
+            playerLance.ResetLance();
+            
             GameManager.Instance.ResetRecipe(isRecipeSame);
         }
     }
@@ -28,9 +38,10 @@ public class Player : MonoBehaviour
     {
         while (true)
         {
+            Debug.Log("체력감소");
             hp -= 1;
             if (hp <= 0) hp = 0;
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.4f);
         }
     }
 

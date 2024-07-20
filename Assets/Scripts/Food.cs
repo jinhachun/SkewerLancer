@@ -55,10 +55,11 @@ public class Food : MonoBehaviour
         GetComponent<Collider2D>().enabled = false;
         this.transform.position = player.GetComponent<PlayerLance>().foodVector();
         this.transform.SetParent(lance.transform, false);
-        this.spriteRenderer.sortingLayerName = "Player";
-        this.spriteRenderer.sortingOrder = 3;
+        this.spriteRenderer.sortingLayerName = "UI";
+        this.spriteRenderer.sortingOrder = 101;
         this.transform.localScale *= 0.6f;
 
+        GameManager.Instance.foodCnt -= 1;
         GameManager.Instance.AddPlayerRecipe(this.type);
     }
     void WrongFood()

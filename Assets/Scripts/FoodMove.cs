@@ -87,8 +87,9 @@ public class FoodMove : MonoBehaviour
     IEnumerator moveAction()
     {
         Debug.Log("move");
-        while (true)
+        while (isMoving)
         {
+            Debug.Log("음식 이동");
             SetMovePoint();
             if (isMoving)
                 Move();

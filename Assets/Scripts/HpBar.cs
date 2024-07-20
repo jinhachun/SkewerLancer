@@ -19,10 +19,11 @@ public class HpBar : MonoBehaviour
     {
         while (true)
         {
+            Debug.Log("체력바 업데이트");
             slider.value = player.hp;
             slider.maxValue = player.maxHp;
 
-            yield return new WaitForSeconds(0.03f);
+            yield return new WaitForSeconds(0.05f);
         }
     }
 }

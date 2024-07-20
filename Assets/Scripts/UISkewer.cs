@@ -17,7 +17,7 @@ public class UISkewer : MonoBehaviour
         StartCoroutine(nameof(SetRoutine));
     }
     [ContextMenu("RESET")]
-    private void ResetSprite()
+    public void ResetSprite()
     {
         List<GameObject> deleteList = new List<GameObject>();
         _lancePike.transform.position = originPikePos;
@@ -55,6 +55,7 @@ public class UISkewer : MonoBehaviour
         while (true){
             if (GameManager.Instance.isRecipeChanged)
             {
+                Debug.Log("UISkewer Set");
                 GameManager.Instance.isRecipeChanged = false;
                 Set();
             }
