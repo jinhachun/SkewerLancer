@@ -34,10 +34,13 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
+
+    public bool inGame;
     public GameObject _foodPrefab;
 
     public List<FoodStruct> foodStructs;
     public Dictionary<FoodStruct, int> foodStructCnt;
+    
     public List<FoodType> recipe;
     public List<FoodType> playerRecipe;
 
@@ -53,6 +56,8 @@ public class GameManager : MonoBehaviour
     public int score;
     private int levelUpScore = 1000;
     public bool isRecipeChanged = false;
+
+     
 
     private void Start()
     {
@@ -126,7 +131,7 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator CreateFoodRoutine()
     {
-        while (true)
+        while (inGame)
         {
             Debug.Log("===CreateFoodRoutine===");
             if (recipe.Count == 0)
@@ -150,7 +155,7 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator ScoreEarnRoutine()
     {
-        while (true)
+        while (GameManager.Instance.inGame)
         {
             Debug.Log("점수추가");
             score+=(50+skewerLength);

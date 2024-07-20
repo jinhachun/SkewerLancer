@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using UnityEngine;
 
 public class ScoreText : MonoBehaviour
@@ -20,7 +21,7 @@ public class ScoreText : MonoBehaviour
     }
     IEnumerator SetScoretext()
     {
-        while (true)
+        while (GameManager.Instance.inGame)
         {
             Debug.Log("점수 텍스트 업데이트");
             textMeshPro.text = score.ToString();

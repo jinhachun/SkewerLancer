@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -52,7 +53,8 @@ public class UISkewer : MonoBehaviour
 
     IEnumerator SetRoutine()
     {
-        while (true){
+        while (GameManager.Instance.inGame)
+        {
             if (GameManager.Instance.isRecipeChanged)
             {
                 Debug.Log("UISkewer Set");

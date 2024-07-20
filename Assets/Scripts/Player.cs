@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
     }
     IEnumerator hpLoss()
     {
-        while (true)
+        while (GameManager.Instance.inGame)
         {
             Debug.Log("체력감소");
             hp -= 1;
