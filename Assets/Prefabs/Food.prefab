@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b49f1adc66a71b441b8f5bd2be4ff782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackEffect: {fileID: 3899523791161153358, guid: 8bae3f21d29af344a851f5b73f3c1955, type: 3}
   type: 0
   color:
     serializedVersion: 2

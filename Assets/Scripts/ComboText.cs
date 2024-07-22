@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class ComboText : ScoreText
 {
-    public override int score => GameManager.Instance.combo;
+    public override string score => GameManager.Instance.combo.ToString();
 }

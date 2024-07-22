@@ -6,9 +6,9 @@ using UnityEngine;
 public class ScoreText : MonoBehaviour
 {
     GameManager gameManager => GameManager.Instance;
-    virtual public int score => gameManager.score;
+    virtual public string score => gameManager.score.ToString();
 
-    TMPro.TMP_Text textMeshPro;
+    protected TMPro.TMP_Text textMeshPro;
 
 
     private void Awake()

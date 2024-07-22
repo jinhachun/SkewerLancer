@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] ScoreAddTxt _scoreAddTxtPrefab;
     [SerializeField] UISkewer uiSkewer;
     PlayerLance playerLance;
     public int hp = 100;
@@ -34,10 +35,13 @@ public class Player : MonoBehaviour
                 }
                 uiSkewer.ResetSprite();
                 hp = System.Math.Min(hp+20+GameManager.Instance.skewerLength,maxHp);
+                var scoreAddTxt = Instantiate(_scoreAddTxtPrefab, this.transform.position, Quaternion.identity);
+                scoreAddTxt.Set(GameManager.Instance.scoreEatRate);
             }
             else
             {
-
+                var scoreAddTxt = Instantiate(_scoreAddTxtPrefab, this.transform.position, Quaternion.identity);
+                scoreAddTxt.Set(0);
             }
             
             playerLance.ResetLance();
@@ -52,7 +56,7 @@ public class Player : MonoBehaviour
             Debug.Log("체력감소");
             hp -= 1;
             if (hp <= 0) hp = 0;
-            yield return new WaitForSeconds(0.35f);
+            yield return new WaitForSeconds(0.3f);
         }
     }
     IEnumerator comboPlus()

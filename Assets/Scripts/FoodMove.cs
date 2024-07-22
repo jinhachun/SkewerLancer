@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Unity.VisualScripting;
+using UnityEngine.EventSystems;
+using Cinemachine.Examples;
 
 
 public class FoodMove : MonoBehaviour
@@ -20,6 +22,8 @@ public class FoodMove : MonoBehaviour
     public float maxMoveRange = 5f;
     public bool isMoving;
 
+    Vector2 moveDirection;
+
     public Tweener tweener;
     private void Awake()
     {
@@ -29,13 +33,25 @@ public class FoodMove : MonoBehaviour
     private void Start()
     {
         StartCoroutine(nameof(moveAction));
+        moveDirection = Vector2.right;
     }
     private void Update()
     {
     }
     void Move()
     {
-        tweener = (transform.DOMove(movePoint, moveDuration).SetEase(Ease.InOutCubic));
+        tweener = (transform.DOMove(movePoint, moveDuration).SetEase(Ease.InOutCubic)).OnComplete(MoveComplete);
+    }
+    void MoveComplete()
+    {
+        switch (movePattern)
+        {
+            case (MovePoint.BOUNCE):
+                {
+                    moveDirection = Quaternion.Euler(0, 0, 90) * moveDirection;
+                    return;
+                }
+        } 
     }
     void SetMovePoint()
     {
@@ -86,14 +102,37 @@ public class FoodMove : MonoBehaviour
                     }
                     return;
                 }
+            case(MovePoint.BOUNCE):
+                {
+                    var moveDirection = new Vector2(1,1);
+                    Debug.DrawRay(transform.position, moveDirection * 20f);
+                    RaycastHit2D hit = Physics2D.Raycast(transform.position, moveDirection,  20f);
+                    if (hit.collider != null)
+                    {
+                        
+                        Vector2 hitPoint = hit.point;
+                        movePoint = hitPoint;
+
+                        Vector2 normal = hit.normal;
+                        moveDirection = Vector2.Reflect(moveDirection, normal);
+                        
+                    }
+                    return;
+                }
         }
     }
     IEnumerator moveAction()
     {
         Debug.Log("move");
+        int roopCnt = 0;
         while (isMoving)
         {
+            if (roopCnt > 300) {
+                Debug.Log("음식이동 무한루프");
+                break;
+            }
             Debug.Log("음식 이동");
+            roopCnt++;
             SetMovePoint();
             if (isMoving)
                 Move();
@@ -105,4 +144,4 @@ public class FoodMove : MonoBehaviour
         yield break; 
     }
 }
-public enum MovePoint { NONE,RANDOM,FOLLOW};
+public enum MovePoint { NONE,RANDOM,FOLLOW,BOUNCE};
