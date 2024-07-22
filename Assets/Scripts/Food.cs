@@ -1,15 +1,19 @@
 using DG.Tweening;
+using DG.Tweening.Core.Easing;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Food : MonoBehaviour
 {
+    [SerializeField] GameObject attackEffect;
     Player player;
     GameObject lance;
     ObjectMovement objectMovement;
 
     FoodMove foodMove;
+
+    FoodStruct foodStruct;
 
     SpriteRenderer spriteRenderer;
 
@@ -32,12 +36,14 @@ public class Food : MonoBehaviour
 
     public void Set(FoodStruct foodStruct)
     {
+        this.foodStruct = foodStruct;
         this.type = foodStruct._foodType;
         this.color = foodStruct._color;
         foodMove.moveDuration = foodStruct._moveDuration;
         foodMove.movePattern = foodStruct._movePattern;
         foodMove.sleepDuration = foodStruct._sleepDuration;
-        foodMove.maxMoveRange = foodStruct._moveRange;
+        foodMove.maxMoveRange = foodStruct._maxMoveRange;
+        foodMove.minMoveRange = foodStruct._minMoveRange;
     }
     public void HitAction()
     {
@@ -52,6 +58,7 @@ public class Food : MonoBehaviour
     }
     void AttachToSkewer()
     {
+        
         foodMove.isMoving = false;
         foodMove.tweener.Kill();
         GetComponent<Collider2D>().enabled = false;
@@ -64,9 +71,13 @@ public class Food : MonoBehaviour
         this.spriteRenderer.sortingLayerName = "UI";
         this.spriteRenderer.sortingOrder = 101;
         this.transform.localScale *= 0.6f;
+        GameManager.Instance.FoodAttach(this.foodStruct);
+        var effect = Instantiate(attackEffect, this.transform.position, Quaternion.identity);
+        ParticleSystem.MainModule main = effect.GetComponent<ParticleSystem>().main;
+        ParticleSystem.MinMaxGradient gradient = new ParticleSystem.MinMaxGradient(this.color);
+        main.startColor = gradient;
 
-        GameManager.Instance.foodCnt -= 1;
-        GameManager.Instance.AddPlayerRecipe(this.type);
+
     }
     void WrongFood()
     {

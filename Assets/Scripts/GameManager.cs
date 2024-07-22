@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
     public List<FoodType> recipe;
     public List<FoodType> playerRecipe;
 
-    public int maxSkewerLength => Math.Min(Math.Max(2,(combo-2)),6);
+    public int maxSkewerLength => Math.Min(Math.Max(2,(combo/4)),8);
     public int skewerLength = 2;
 
     public int foodCnt = 0;
@@ -58,8 +58,15 @@ public class GameManager : MonoBehaviour
 
     public int score;
     public int combo;
-    private int levelUpScore = 1200;
+    private int levelUpScore = 2000;
+    public int level = 1;
     public bool isRecipeChanged = false;
+
+    public int scoreRate => (10 * combo);
+    public int scoreEatRate => skewerLength * combo * 50;
+
+    public float hpLossRate => 2f+1.5f/(level);
+
 
      
 
@@ -76,18 +83,22 @@ public class GameManager : MonoBehaviour
     }
     void CreateFood()
     {
-        //foreach (KeyValuePair<FoodStruct,int> keyValuePair in foodStructCnt)
-        //{
-        //    if(keyValuePair.Value == 0)
-        //    {
-        //        foodStruct = keyValuePair.Key;
-        //    }
-        //}
+        
         UpdateFoodStructCnt();
         FoodStruct foodStruct = RandomSpawnTarget();
+        foreach (KeyValuePair<FoodStruct, int> keyValuePair in foodStructCnt)
+        {
+            Debug.Log(keyValuePair.Key._foodType+" ===> "+keyValuePair.Value);
+            if (foodCnt!=0 && keyValuePair.Value == 0)
+            {
+                foodStruct = keyValuePair.Key;
+            }
+        }
         if (!foodStructCnt.ContainsKey(foodStruct)) foodStructCnt.Add(foodStruct, 0);
-        var randomX = Random.Range(-20,20);
-        var randomY = Random.Range(-10, 10);
+        else
+            foodStructCnt[foodStruct]++;
+        var randomX = Random.Range(-15,15);
+        var randomY = Random.Range(-7, 7);
         var tmpFood = Instantiate(_foodPrefab,new Vector3(randomX,randomY),Quaternion.identity);
         tmpFood.GetComponent<Food>().Set(foodStruct);
     }
@@ -97,7 +108,6 @@ public class GameManager : MonoBehaviour
         int max = 0;
         foreach (var keyValue in foodStructCnt)
         {
-            Debug.Log(keyValue.Key+"------"+keyValue.Value);
             max = Math.Max(max, keyValue.Value);
         }
         foreach (var keyValue in foodStructCnt)
@@ -131,6 +141,14 @@ public class GameManager : MonoBehaviour
         }
         isRecipeChanged = true;
     }
+    void SetHighScore()
+    {
+        int highscore = PlayerPrefs.GetInt("HIGHSCORE", 0);
+        if (highscore < score)
+        {
+            PlayerPrefs.SetInt("HIGHSCORE", score);
+        }
+    }
     public void AddPlayerRecipe(FoodType foodType)
     {
         playerRecipe.Add(foodType);
@@ -159,10 +177,17 @@ public class GameManager : MonoBehaviour
             recipe.Clear();
         playerRecipe.Clear();
     }
+    public void FoodAttach(FoodStruct foodStruct)
+    {
+        foodCnt -= 1;
+        foodStructCnt[foodStruct]--;
+        AddPlayerRecipe(foodStruct._foodType);
+    }
     public void EarnScore()
     {
-        score += skewerLength*combo*50;
+        score += scoreEatRate;
         combo++;
+        SetHighScore();
     }
     IEnumerator CreateFoodRoutine()
     {
@@ -193,9 +218,11 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             Debug.Log("점수추가");
-            score+=(10*combo);
-            if(score != 0 && score>levelUpScore)
+            score += scoreRate;
+            SetHighScore();
+            if (score != 0 && score>levelUpScore)
             {
+                level++;
                 levelUpScore *= 2;
                 var i = Math.Min(foodStructs.Count-1, maxSkewerLength - 1);
                 if (!foodStructCnt.ContainsKey(foodStructs[i]))
@@ -215,5 +242,7 @@ public struct FoodStruct
     public MovePoint _movePattern;
     public float _moveDuration;
     public float _sleepDuration;
-    public float _moveRange;
+    public float _minMoveRange;
+    public float _maxMoveRange;
+
 }
