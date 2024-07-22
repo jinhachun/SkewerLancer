@@ -36,7 +36,7 @@ public class RopeHook : MonoBehaviour
         isPlayerExit = false;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (maneuver.isRopeAttach && targetObject != null)
         {

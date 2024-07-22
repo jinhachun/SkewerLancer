@@ -49,7 +49,7 @@ public class UISkewer : MonoBehaviour
                 );
             var tmpFoodSpriteRenderer = tmpFood.GetComponent<SpriteRenderer>();
             tmpFoodSpriteRenderer.sortingLayerName = "UI";
-            tmpFoodSpriteRenderer.sortingOrder = 2;
+            tmpFoodSpriteRenderer.sortingOrder = 301;
             tmpFoodStruct._movePattern = MovePoint.NONE;
             tmpFoodFood.Set(tmpFoodStruct);
         }

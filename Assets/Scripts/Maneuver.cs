@@ -79,7 +79,9 @@ public class Maneuver : MonoBehaviour
 
         ropeHook.gameObject.SetActive(false);
     }
-
+    bool isRopeShot;
+    bool isHookMove;
+    
     void Update()
     {
         line.SetPosition(0, transform.position);
@@ -87,7 +89,7 @@ public class Maneuver : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse0))          // 로프 발사
         {
-            RopeShot();
+            isRopeShot = true;
         } 
         //else if(Input.GetKeyUp(KeyCode.Mouse0) && isRopeAttach) // 로프 컴백
         //{
@@ -100,6 +102,20 @@ public class Maneuver : MonoBehaviour
         }
         if (isRopeAction && !isRopeMax && !isRopeAttach)
         {
+            isHookMove = true;
+        }
+        
+
+    }
+    private void FixedUpdate()
+    {
+        if (isRopeShot)
+        {
+            RopeShot();
+            isRopeShot = false;
+        }
+        if (isHookMove)
+        {
             hook.Translate(mousedir.normalized * Time.deltaTime * ropeSpeed);
             hook.Translate(mousedir.normalized * Time.deltaTime * ropeSpeed);
             hook.Translate(mousedir.normalized * Time.deltaTime * ropeSpeed);
@@ -107,22 +123,22 @@ public class Maneuver : MonoBehaviour
             {
                 isRopeMax = true;
             }
+            isHookMove = false;
         }
         if (isRopeAttach)
         {
             setLineColor(lineAttachingColor);
-            isRopeMax = !isRopeMax ? ropeHook.collideTarget==CollideTarget.NONE:true;
+            isRopeMax = !isRopeMax ? ropeHook.collideTarget == CollideTarget.NONE : true;
             if (ropeHook.targetObject != null)
             {
                 RopeAbility();
             }
-                
+
         }
         if (isRopeMax)
         {
             RopeComeBack();
         }
-
     }
     void setLineColor(Color32 color)
     {

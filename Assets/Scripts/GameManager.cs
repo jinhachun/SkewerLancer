@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -34,6 +32,10 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
+    public static void DestroyGameManager()
+    {
+        Destroy(instance.gameObject);
+    }
 
     public bool inGame;
     public GameObject _foodPrefab;
@@ -47,7 +49,13 @@ public class GameManager : MonoBehaviour
     public List<FoodType> recipe;
     public List<FoodType> playerRecipe;
 
-    public int maxSkewerLength => Math.Min(Math.Max(2,(combo/4)),8);
+    [SerializeField]
+    int maxLevel = 8;
+    [SerializeField]
+    int minLevel = 2;
+    [SerializeField]
+    int testCombo = 0;
+    public int maxSkewerLength => 2+ Math.Min(combo/4,5);
     public int skewerLength = 2;
 
     public int foodCnt = 0;
@@ -58,23 +66,30 @@ public class GameManager : MonoBehaviour
 
     public int score;
     public int combo;
-    private int levelUpScore = 2000;
+    private int levelUpScore = 5000;
     public int level = 1;
     public bool isRecipeChanged = false;
 
     public int scoreRate => (10 * combo);
     public int scoreEatRate => skewerLength * combo * 50;
 
-    public float hpLossRate => 2f+1.5f/(level);
+    public float hpLossRate => Math.Max(0.35f - (0.025f * (level)), 0.2f);
 
 
-     
+
+
 
     private void Start()
     {
+        inGame = true;
+        Time.timeScale = 1f;
         foodStructCnt = new Dictionary<FoodStruct, int>();
         foodStructSpawnPercentage = new Dictionary<FoodStruct, int>();
+        foodStructCnt.Add(foodStructs[0], 0);
+        foodStructCnt.Add(foodStructs[1], 0);
         StartRoutine();
+
+       
     }
     void StartRoutine()
     {
@@ -83,20 +98,20 @@ public class GameManager : MonoBehaviour
     }
     void CreateFood()
     {
-        
+
+        var i = Math.Min(foodStructs.Count - 1, maxSkewerLength - 1);
+        if (!foodStructCnt.ContainsKey(foodStructs[i]))
+            foodStructCnt.Add(foodStructs[i], 0);
         UpdateFoodStructCnt();
         FoodStruct foodStruct = RandomSpawnTarget();
         foreach (KeyValuePair<FoodStruct, int> keyValuePair in foodStructCnt)
         {
-            Debug.Log(keyValuePair.Key._foodType+" ===> "+keyValuePair.Value);
             if (foodCnt!=0 && keyValuePair.Value == 0)
             {
                 foodStruct = keyValuePair.Key;
             }
         }
-        if (!foodStructCnt.ContainsKey(foodStruct)) foodStructCnt.Add(foodStruct, 0);
-        else
-            foodStructCnt[foodStruct]++;
+        foodStructCnt[foodStruct]++;
         var randomX = Random.Range(-15,15);
         var randomY = Random.Range(-7, 7);
         var tmpFood = Instantiate(_foodPrefab,new Vector3(randomX,randomY),Quaternion.identity);
@@ -129,10 +144,12 @@ public class GameManager : MonoBehaviour
         }
         if (tmpFoodStructs.Count > 0)
             return tmpFoodStructs[Random.Range(0, tmpFoodStructs.Count)];
-        else return foodStructs[UnityEngine.Random.Range(0, Math.Min(foodStructs.Count, skewerLength))]; ;
+        else 
+            return foodStructs[UnityEngine.Random.Range(0, Math.Min(foodStructs.Count, skewerLength))]; ;
     }
     void NewRecipe()
     {
+        //var = foodStructCnt.Keys[Random.Range(0,foodStructCnt.Keys.Count)]
         skewerLength = UnityEngine.Random.Range(2, maxSkewerLength+1);
         for (int i = 0; i < skewerLength; i++)
         {
@@ -193,10 +210,8 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log("===CreateFoodRoutine===");
             if (recipe.Count == 0)
             {
-                Debug.Log("새 레시피");
                 NewRecipe();
 
             }
@@ -204,7 +219,6 @@ public class GameManager : MonoBehaviour
             {
                 if (foodCnt < maxFoodCnt)
                 {
-                    Debug.Log("음식 생성");
                     foodCnt++;
                     CreateFood();
                 }
@@ -217,16 +231,12 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log("점수추가");
             score += scoreRate;
             SetHighScore();
             if (score != 0 && score>levelUpScore)
             {
                 level++;
                 levelUpScore *= 2;
-                var i = Math.Min(foodStructs.Count-1, maxSkewerLength - 1);
-                if (!foodStructCnt.ContainsKey(foodStructs[i]))
-                    foodStructCnt.Add(foodStructs[i], 0);
                 createFoodRate = Math.Max(createFoodRate-0.2f,0.5f);
             }
             yield return new WaitForSeconds(1f);

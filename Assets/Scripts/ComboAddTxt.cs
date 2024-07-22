@@ -4,17 +4,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using DG.Tweening;
 
-public class ScoreAddTxt : ScoreText
+public class ComboAddTxt : ScoreAddTxt
 {
-    int bonusScore = 0;
-    public override string score => bonusScore<=0?"...?":$"+{bonusScore.ToString()}!";
-    public float moveDistance = 100f;
-    public float duration = 2f;
-
-    
-    virtual public void Set(int bonusScore)
+    public override string score => GameManager.Instance.combo<=0?"":$"COMBO {GameManager.Instance.combo.ToString()}";
+    virtual public void Set()
     {
-        this.bonusScore = bonusScore;
+        //transform.transform.localScale *= 
         // 텍스트의 초기 알파값 설정
         Color initialColor = textMeshPro.color;
         initialColor.a = 1f;

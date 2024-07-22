@@ -21,7 +21,7 @@ public class ScoreText : MonoBehaviour
     }
     IEnumerator SetScoretext()
     {
-        while (GameManager.Instance.inGame)
+        while (GameManager.Instance != null && GameManager.Instance.inGame)
         {
             textMeshPro.text = score.ToString();
             yield return new WaitForSeconds(0.03f);

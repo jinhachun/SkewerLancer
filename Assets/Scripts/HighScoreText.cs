@@ -8,6 +8,7 @@ public class HighScoreText : ScoreText
     public override string score => highscore.ToString();
     private void Update()
     {
+        if (GameManager.Instance == null) return;
         if (highscore <= GameManager.Instance.score)
         {
             textMeshPro.color = Color.red;
